@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:indriver_clone_flutter/src/domain/usecases/auth/AuthUseCases.dart';
+import 'package:indriver_clone_flutter/src/domain/utils/Resource.dart';
 import 'package:indriver_clone_flutter/src/presentation/pages/auth/login/bloc/LoginEvent.dart';
 import 'package:indriver_clone_flutter/src/presentation/pages/auth/login/bloc/LoginState.dart';
 import 'package:indriver_clone_flutter/src/presentation/utils/BlocFormItem.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
+  AuthUseCases authUseCases;
   final formKey = GlobalKey<FormState>();
 
-  LoginBloc() : super(LoginState()) {
+  LoginBloc(this.authUseCases) : super(LoginState()) {
     on<LoginInitEvent>((event, emit) {
       emit(state.copyWith(formKey: formKey));
     });
@@ -29,9 +32,25 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                       : null),
           formKey: formKey));
     });
-    on<FormSumbit>((event, emit) {
-      print('Password: ${state.password}');
-      print('Email: ${state.email}');
+
+    on<FormSumbit>((event, emit) async {
+      print('Success data ${state.email.value}');
+      print('Success data ${state.password.value}');
+
+      emit(
+        state.copyWith(
+          response: Loading(),
+          formKey: formKey,
+        ),
+      );
+      Resource response =
+          await authUseCases.login.run(state.email.value, state.password.value);
+      emit(
+        state.copyWith(
+          response: response,
+          formKey: formKey,
+        ),
+      );
     });
   }
 }

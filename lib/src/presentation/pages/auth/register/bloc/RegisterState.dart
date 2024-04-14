@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:indriver_clone_flutter/src/domain/models/User.dart';
+import 'package:indriver_clone_flutter/src/domain/utils/Resource.dart';
 import 'package:indriver_clone_flutter/src/presentation/utils/BlocFormItem.dart';
 
 class RegisterState extends Equatable {
@@ -9,7 +11,16 @@ class RegisterState extends Equatable {
   final BlocFormItem phone;
   final BlocFormItem password;
   final BlocFormItem confirmPassword;
+  final Resource? response;
   final GlobalKey<FormState>? formKey;
+
+  toUser() => User(
+        name: name.value,
+        lastname: lastname.value,
+        email: email.value,
+        phone: phone.value,
+        password: password.value,
+      );
 
   const RegisterState({
     this.name = const BlocFormItem(error: 'Ingresa el nombre'),
@@ -18,6 +29,7 @@ class RegisterState extends Equatable {
     this.phone = const BlocFormItem(error: 'Ingresa el telefono'),
     this.password = const BlocFormItem(error: 'Ingresa una contraseña'),
     this.confirmPassword = const BlocFormItem(error: 'Confirma la contraseña'),
+    this.response,
     this.formKey,
   });
 
@@ -28,6 +40,7 @@ class RegisterState extends Equatable {
     BlocFormItem? phone,
     BlocFormItem? password,
     BlocFormItem? confirmPassword,
+    Resource? response,
     GlobalKey<FormState>? formKey,
   }) {
     return RegisterState(
@@ -37,6 +50,7 @@ class RegisterState extends Equatable {
       phone: phone ?? this.phone,
       password: password ?? this.password,
       confirmPassword: confirmPassword ?? this.confirmPassword,
+      response: response,
       formKey: formKey,
     );
   }
@@ -49,5 +63,6 @@ class RegisterState extends Equatable {
         phone,
         password,
         confirmPassword,
+        response,
       ];
 }

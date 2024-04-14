@@ -167,7 +167,7 @@ class RegisterContent extends StatelessWidget {
         Text('Ya tienes cuenta?', style: TextStyle(color: Colors.grey[100])),
         SizedBox(width: 5),
         GestureDetector(
-          onTap: () => {Navigator.pushNamed(context, 'login')},
+          onTap: () => {Navigator.pop(context)},
           child: Text(
             'Inicia sesión',
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
@@ -230,7 +230,7 @@ class RegisterContent extends StatelessWidget {
 
   Widget _textLoginRotated(BuildContext context) {
     return GestureDetector(
-      onTap: () => {Navigator.pushNamed(context, 'login')},
+      onTap: () => {Navigator.pop(context)},
       child: RotatedBox(
           quarterTurns: -1,
           child: Text('LOGIN',
